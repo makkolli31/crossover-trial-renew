@@ -6,3 +6,8 @@ Built upon santaklouse's CrossOver.sh with the latest patch.
 ## Requirements
 
 - Brew
+
+Run the following command in terminal:  
+
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/Nygosaki/crossover-trial-renew/refs/heads/main/resertCrossoverTrial.sh)"```  
