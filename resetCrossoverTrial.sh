@@ -34,7 +34,7 @@ while true; do
         plutil -remove FirstRunVersion ~/Library/Preferences/com.codeweavers.CrossOver.plist
     fi
     if ! /usr/libexec/PlistBuddy -c "Print :FirstRunDate" ~/Library/Preferences/com.codeweavers.CrossOver.plist &>/dev/null; then
-        echo "FirstRunDate not found in plist file. Deletion succesfull."
+        echo "FirstRunDate not found in plist file. Deletion successful."
         break
     fi
 done
@@ -49,7 +49,7 @@ for i in ~/Library/Application\ Support/CrossOver/Bottles/*; do
     done
 
     if ! grep -q '\[Software\\\\CodeWeavers\\\\CrossOver\\\\cxoffice\]' "$i/system.reg"; then
-        echo "Bottle trial reset succesfull."
+        echo "Bottle trial reset successful."
         break
     fi
 done
