@@ -27,12 +27,13 @@ done
 # Reset trial start date of CrossOver
 while true; do
     if /usr/libexec/PlistBuddy -c "Print :FirstRunDate" ~/Library/Preferences/com.codeweavers.CrossOver.plist &>/dev/null; then
+        defaults delete com.codeweavers.CrossOver FirstRunDate
+        sleep 0.3
         plutil -remove FirstRunDate ~/Library/Preferences/com.codeweavers.CrossOver.plist
     fi
+    
+    sleep 1
 
-    if /usr/libexec/PlistBuddy -c "Print :FirstRunVersion" ~/Library/Preferences/com.codeweavers.CrossOver.plist &>/dev/null; then
-        plutil -remove FirstRunVersion ~/Library/Preferences/com.codeweavers.CrossOver.plist
-    fi
     if ! /usr/libexec/PlistBuddy -c "Print :FirstRunDate" ~/Library/Preferences/com.codeweavers.CrossOver.plist &>/dev/null; then
         echo "FirstRunDate not found in plist file. Deletion successful."
         break
@@ -40,17 +41,20 @@ while true; do
 done
 
 # Reset trial start date of the bottles
-while true; do
 for i in ~/Library/Application\ Support/CrossOver/Bottles/*; do
-    if [ -d "$i" ]; then
-        sed -i '' '/\[Software\\\\CodeWeavers\\\\CrossOver\\\\cxoffice\].*/,+5d' "$i/system.reg"
-        break
-    fi
-    done
+    while true; do
+        echo "Checking $i"
+        if [ -d "$i" ]; then
+            sed -i '' '/\[Software\\\\CodeWeavers\\\\CrossOver\\\\cxoffice\].*/,+5d' "$i/system.reg"
+        fi
 
-    if ! grep -q '\[Software\\\\CodeWeavers\\\\CrossOver\\\\cxoffice\]' "$i/system.reg"; then
-        echo "Bottle trial reset successful."
-        break
-    fi
+        sleep 0.3
+
+        if ! grep -q '\[Software\\\\CodeWeavers\\\\CrossOver\\\\cxoffice\]' "$i/system.reg"; then
+            echo "Bottle trial reset successful."
+            break
+        fi
+    done
 done
+
 /usr/bin/osascript -e "display notification \"Crossover Trial Updated\""
