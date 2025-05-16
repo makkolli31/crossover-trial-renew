@@ -58,3 +58,16 @@ for i in ~/Library/Application\ Support/CrossOver/Bottles/*; do
 done
 
 /usr/bin/osascript -e "display notification \"Crossover Trial Updated\""
+
+# find app in default paths
+CO_PWD=~/Applications/CrossOver.app/Contents/MacOS
+test -d "${CO_PWD}" || CO_PWD=/Applications/CrossOver.app/Contents/MacOS
+
+test -d "${CO_PWD}" || (echo 'unable to detect app path. exiting...' && exit)
+
+PWD="${CO_PWD}"
+cd "${PWD}"
+
+# and after this execute original crossover
+echo "${PWD}" > /tmp/co_log.log
+"$($PWD/CrossOver.origin)" >> /tmp/co_log.log
